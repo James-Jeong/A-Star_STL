@@ -7,14 +7,14 @@
 class Square
 {
 public:
-    char zero_zero;
-    char zero_one;
-    char zero_two;
-    char one_zero;
-    char one_two;
-    char two_zero;
-    char two_one;
-    char two_two;
+    int zero_zero;
+    int zero_one;
+    int zero_two;
+    int one_zero;
+    int one_two;
+    int two_zero;
+    int two_one;
+    int two_two;
 
     Square(int zz, int zo, int zt, int oz, int ot, int tz, int to, int tt);
 };
