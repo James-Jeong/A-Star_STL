@@ -82,15 +82,21 @@ int main()
     deque<char>::iterator iter;
     deque<char>::iterator iter2;
 
+    int prev_i = 0;
+
+    bool is_Sero = false; bool is_Garo = false;
+
     //printf("%c", *iter_map);
     printf("\ncount : %d\n\n", cnt);
     printf("at_F : %d\n", at_F);
     printf("at_S : %d\n", at_S);
     int i = at_S;
     // start point : at_S -> 72
-    for(int x = 0; x < 30; x++){
+    for(int x = 0; x < 56; x++){
         printf("******************\n");
         printf("i : %d\n", i);
+        prev_i = i;
+        is_Sero = false; is_Garo = false;
         zz = i-72; zo = i-71; zt = i-70;
         oz = i-1; ot = i+1;
         tz = i+70; to = i+71; tt = i+72;
@@ -239,22 +245,72 @@ int main()
         close_list.push_back(i); // start point
 
         i = vec.begin()->first;
+        //is_Sero_minus
+        int temp = i - prev_i;
+        if(temp < 0){
+            if(temp == -1){
+                is_Garo = true;
+                printf("[ Move Garo Minus ]\n");
+            }
+            else if(temp == -71){
+                is_Sero = true;
+                printf("[ Move Sero Minus ]\n");
+            }
+        }
+        else{
+            if(temp == 1){
+                is_Garo = true;
+                printf("[ Move Garo ]\n");
+            }
+            else if(temp == 71){
+                is_Sero = true;
+                printf("[ Move Sero ]\n");
+            }
+        }
+
         open_list.push_back(i); // new start point
         printf("open_list : %d\n\n", open_list.back());
         vec.erase(vec.begin());
 
         iter = map_list.begin();
         iter += i+1;
-        printf("map : %c\n", map_list.at(i+1)); // check 'o'
+        if(temp < 0){
+            if(((i-1) > 0) && is_Garo == true){
+                printf("map : %c\n", map_list.at(i-1)); // check 'o'
+            }
+            else if(((i-71) > 0) && is_Sero == true){
+                printf("map : %c\n", map_list.at(i-71)); // check 'o'
+            }
+        }
+        else{
+            if(is_Garo == true){
+                printf("map : %c\n", map_list.at(i+1)); // check 'o'
+            }
+            else if(is_Sero == true){
+                printf("map : %c\n", map_list.at(i+71)); // check 'o'
+            }
+        }
+
         vector<pair<int, int>>::iterator iter_vec = vec.begin();
 
+        //printf("F_tz : %d, H_tz : %d, G_tz : %d\n", F_tz, H_tz, G_tz);
+        //printf("F_tt : %d, H_tt : %d, G_tt : %d\n", F_tt, H_tt, G_tt);
         for(int j = 0; j < n-1; j++){
             if(iter_vec->first >= 0 && iter_vec->first < cnt){
                 printf("close_list : %d\n", iter_vec->first);
-                if(map_list.at(i+1) != 'o'){
-
+                if(temp < 0){
+                    if((is_Sero == true) && ((i-71) > 0)){
+                        close_list.push_back(iter_vec->first); // store other point
+                    }
                 }
-                close_list.push_back(iter_vec->first); // store other point
+                else{
+                    if((is_Garo == true) && (map_list.at(i+1) != 'o')){
+                        close_list.push_back(iter_vec->first); // store other point
+                    }
+                    else if((is_Sero == true) && (map_list.at(i+71) != 'o')){
+                        close_list.push_back(iter_vec->first); // store other point
+                    }
+                }
                 iter_vec += 1;
             }
         }
@@ -281,6 +337,7 @@ int main()
     for(int i = 0; i < cnt; i++){
         printf("%c", map_list.at(i));
     }
+    printf("\n\n");
 }
 
 
