@@ -319,9 +319,18 @@ int main()
 
     // print modifed map
     printf("\n\n");
+    FILE* write_fp;
+    if((write_fp = fopen("./map2.txt", "w")) == NULL){
+        perror("{ File open ERROR! }");
+        exit(0);
+    }
+
     for(int i = 0; i < cnt; i++){
         printf("%c", map_list.at(i));
+        fputc(map_list.at(i), write_fp);
     }
+
+    printf("[ Directory : ./map2.txt ]\n");
     printf("\n\n");
 }
 
