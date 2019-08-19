@@ -85,10 +85,10 @@ int main()
     bool is_Sero = false; bool is_Garo = false; bool is_Garo_collision = false;
     bool is_Reverse_Garo = false;
 
-    //printf("%c", *iter_map);
     printf("\ncount : %d\n\n", cnt); printf("at_F : %d\n", at_F); printf("at_S : %d\n", at_S);
     int i = at_S;
     // start point : at_S -> 72
+    // while(1) -> not terminated... I could't find the solution of this problem.
     for(int x = 0; x < 600; x++){
         printf("******************\n");
         prev_i = i;
@@ -166,6 +166,7 @@ int main()
         printf("n : %d\n", n);
         // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+        // check bound of map
         if(zz < 0){ printf("[ zz < %d, %d > reaches the wall! ]\n", i, zz); }
         else{ if(is_zz == false){ H_zz = cal_distance(sq->zero_zero); F_zz = H_zz + G_zz;
                 if(F_zz > 0) temp_map.insert(make_pair(zz, F_zz)); } }
@@ -191,6 +192,7 @@ int main()
         else{ if(is_tt == false){ H_tt = cal_distance(sq->two_two); F_tt = H_tt + G_tt;
                 if(F_tt > 0) temp_map.insert(make_pair(tt, F_tt)); } }
 
+        // find a point that has the min cost
         vector<pair<int, int>> vec(temp_map.begin(), temp_map.end());
         sort(vec.begin(), vec.end(), compare_pair_second<less>());
 
@@ -207,8 +209,6 @@ int main()
         vector<pair<int, int>>::iterator iter_vec2 = vec.begin();
 
         // print result
-        printf("H_tt : %d\n", H_tt);
-        printf("H_to : %d\n", H_to);
         for(int aa = 0; aa < 8; aa++){
             printf("%d %d\n", iter_vec2->first, iter_vec2->second);
             iter_vec2++;
@@ -228,6 +228,7 @@ int main()
         }
         // ********************************************
 
+        // check directions of garo & sero
         printf("[ i : %d ]\n", i);
         int temp = i - prev_i;
         printf("[ temp : %d ]\n", temp);
@@ -240,10 +241,12 @@ int main()
             else if(temp == 71){ is_Sero = true; printf("[ Move Sero ]\n"); }
         }
 
+        // save current i to open_list
         open_list.push_back(i); // new start point
         printf("open_list : %d\n\n", open_list.back());
         vec.erase(vec.begin());
 
+        // check next map value using the information of garo & sero
         iter = map_list.begin();
         iter += (i + 1);
         bool no_Sero = false;
@@ -267,8 +270,8 @@ int main()
             }
         }
 
+        // Manage points of close_list
         vector<pair<int, int>>::iterator iter_vec = vec.begin();
-
         printf("[ i+142 : %d ]\n", i+142);
         if(no_Sero == false){ // except oz, ot
             for(int j = 0; j < n-1; j++){
@@ -295,6 +298,7 @@ int main()
             }
         }
 
+        // draw route
         if(map_list.at(i+1) == 'o'){
             iter2 = map_list.erase(iter-1);
             map_list.insert(iter-1, '*');
@@ -313,6 +317,7 @@ int main()
         printf("******************\n");
     }
 
+    // print modifed map
     printf("\n\n");
     for(int i = 0; i < cnt; i++){
         printf("%c", map_list.at(i));
