@@ -330,7 +330,8 @@ int main()
         fputc(map_list.at(i), write_fp);
     }
 
-    printf("[ Directory : ./map2.txt ]\n");
+    fclose(write_fp);
+    printf("\n[ Directory : ./map2.txt ]\n");
     printf("\n\n");
 }
 
